@@ -209,6 +209,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.8.0+1"
+  dio_intercept_to_curl:
+    dependency: "direct main"
+    description:
+      name: dio_intercept_to_curl
+      sha256: aaf22b05858385ee00dfabd8a1c74265f2e9057a266047a75d81c468f1fcf854
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.0"
   dio_web_adapter:
     dependency: transitive
     description:
@@ -360,6 +368,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.0"
+  http_mock_adapter:
+    dependency: "direct dev"
+    description:
+      name: http_mock_adapter
+      sha256: "46399c78bd4a0af071978edd8c502d7aeeed73b5fb9860bca86b5ed647a63c1b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.1"
   http_multi_server:
     dependency: transitive
     description:
@@ -456,6 +472,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.1.1"
+  logger:
+    dependency: transitive
+    description:
+      name: logger
+      sha256: be4b23575aac7ebf01f225a241eb7f6b5641eeaf43c6a8613510fc2f8cf187d1
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.5.0"
   logging:
     dependency: transitive
     description:

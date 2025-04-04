@@ -24,6 +24,7 @@ dependencies:
   json_annotation: ^4.9.0
   uuid: ^4.5.1
   fpdart: ^1.1.1
+  dio_intercept_to_curl: ^0.2.0
 
 dev_dependencies:
   flutter_test:
@@ -36,6 +37,7 @@ dev_dependencies:
   json_serializable: ^6.9.4
   mocktail: ^1.0.4
   test: ^1.25.15
+  http_mock_adapter: ^0.6.1
 
 flutter:
   uses-material-design: true
