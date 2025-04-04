@@ -22,6 +22,7 @@ dependencies:
   go_router: ^14.8.1
   freezed_annotation: ^3.0.0
   json_annotation: ^4.9.0
+  uuid: ^4.5.1
 
 dev_dependencies:
   flutter_test:
@@ -33,6 +34,9 @@ dev_dependencies:
   freezed: ^3.0.4
   json_serializable: ^6.9.4
   mocktail: ^1.0.4
+  test: ^1.25.15
 
 flutter:
   uses-material-design: true
+  assets:
+    - .env
