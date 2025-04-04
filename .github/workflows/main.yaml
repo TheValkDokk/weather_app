@@ -26,10 +26,10 @@ jobs:
         run: fvm flutter pub get
 
       - name: Run Build Runner
-        run: fvm dart run build_runner build --delete-conflicting-outputs
+        run: dart run build_runner build --delete-conflicting-outputs
 
       - name: 🧪 Run Tests
-        run: fvm flutter test --coverage
+        run: flutter test --coverage
 
       - name: Check Code Coverage
         uses: VeryGoodOpenSource/very_good_coverage@v3
