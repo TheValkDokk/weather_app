@@ -1,0 +1,36 @@
+name: weather-app
+
+concurrency:
+  group: $-$
+  cancel-in-progress: true
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter Version Manager (FVM)
+        uses: kuhnroyal/flutter-fvm-config-action/setup@v3
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run Build Runner
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: 🧪 Run Tests
+        run: flutter test --coverage
+
+      - name: Check Code Coverage
+        uses: VeryGoodOpenSource/very_good_coverage@v3
+        with:
+          path: ./coverage/lcov.info
+          exclude: ""
+          min_coverage: 80
