@@ -4,10 +4,12 @@ import 'package:weather_app/core/errors/failure.dart';
 
 @lazySingleton
 class EnvService {
-  @preResolve
+  @PostConstruct(preResolve: true)
   Future<void> init() async {
-    await dotenv.load();
+    await _loadEnv();
   }
+
+  Future<void> _loadEnv() async => await dotenv.load();
 
   String get(String key) {
     try {

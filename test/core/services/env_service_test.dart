@@ -1,33 +1,44 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:weather_app/core/app.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:test/test.dart';
+import 'package:weather_app/core/errors/failure.dart';
 import 'package:weather_app/core/services/env_service.dart';
+
+class MockDotEnv extends Mock implements DotEnv {}
 
 void main() {
   late EnvService envService;
+  late MockDotEnv mockDotEnv;
 
-  setUp(() async {
-    dotenv.testLoad(
-      fileInput: '''
-      TEST_KEY=test_value
-    ''',
-    );
+  setUp(() {
+    mockDotEnv = MockDotEnv();
+    dotenv = mockDotEnv;
     envService = EnvService();
   });
 
-  group('Env Service', () {
-    test('should load .env file and return value for TEST_KEY', () async {
-      expect(envService.get('TEST_KEY'), equals('test_value'));
+  group('EnvService', () {
+    test('init loads environment variables', () async {
+      when(() => mockDotEnv.load()).thenAnswer((_) async => true);
+      await envService.init();
+      verify(() => mockDotEnv.load()).called(1);
     });
 
-    test('should throw Failure when environment variable is not found', () {
+    test('get returns value when key exists', () {
+      when(() => mockDotEnv.get('API_KEY')).thenReturn('test_value');
+      final result = envService.get('API_KEY');
+      expect(result, 'test_value');
+    });
+
+    test('get throws Failure when key is not found', () {
+      when(() => mockDotEnv.get('API_KEY')).thenThrow(Exception());
+
       expect(
-        () => envService.get('NON_EXISTING_KEY'),
+        () => envService.get('API_KEY'),
         throwsA(
           isA<Failure>().having(
             (f) => f.message,
             'message',
-            equals('Environment variable NON_EXISTING_KEY not found'),
+            'Environment variable API_KEY not found',
           ),
         ),
       );
