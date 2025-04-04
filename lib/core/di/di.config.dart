@@ -15,6 +15,7 @@ import 'package:injectable/injectable.dart' as _i526;
 import 'package:weather_app/core/di/di.dart' as _i689;
 import 'package:weather_app/core/services/dio_service.dart' as _i405;
 import 'package:weather_app/core/services/env_service.dart' as _i924;
+import 'package:weather_app/core/services/permission_service.dart' as _i968;
 import 'package:weather_app/routes/route.dart' as _i701;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -27,6 +28,7 @@ extension GetItInjectableX on _i174.GetIt {
     final registerModule = _$RegisterModule();
     gh.factory<_i361.Dio>(() => registerModule.dio);
     gh.singleton<_i701.AppRoutes>(() => _i701.AppRoutes());
+    gh.singleton<_i968.PermissionService>(() => _i968.PermissionService());
     await gh.lazySingletonAsync<_i924.EnvService>(() {
       final i = _i924.EnvService();
       return i.init().then((_) => i);
