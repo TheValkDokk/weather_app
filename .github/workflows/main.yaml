@@ -23,7 +23,7 @@ jobs:
         uses: kuhnroyal/flutter-fvm-config-action/setup@v3
 
       - name: Install dependencies
-        run: fvm flutter pub get
+        run: flutter pub get
 
       - name: Run Build Runner
         run: dart run build_runner build --delete-conflicting-outputs
