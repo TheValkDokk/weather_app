@@ -29,4 +29,8 @@ class PermissionService {
   Future<bool> isLimited(Permission permission) async {
     return await permission.status.isLimited;
   }
+
+  Future<PermissionStatus> getPermissionStatus(Permission permission) async {
+    return await permission.status;
+  }
 }

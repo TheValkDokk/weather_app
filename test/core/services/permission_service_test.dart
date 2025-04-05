@@ -59,4 +59,12 @@ void main() {
     final result = await permissionService.requestPermissions();
     expect(result, [PermissionStatus.denied]);
   });
+
+  test('getPermissionStatus returns correct status', () async {
+    mockMethodChannel(method: 'requestPermissions', result: 1);
+    final status = await permissionService.getPermissionStatus(
+      Permission.location,
+    );
+    expect(status, PermissionStatus.granted);
+  });
 }
