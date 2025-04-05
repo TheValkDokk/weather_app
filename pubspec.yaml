@@ -28,6 +28,7 @@ dependencies:
   geolocator: ^13.0.4
   geocoding: ^3.0.0
   rxdart: ^0.28.0
+  app_settings: ^6.1.1
 
 dev_dependencies:
   flutter_test:
@@ -38,7 +39,7 @@ dev_dependencies:
   build_runner: ^2.4.15
   freezed: ^3.0.4
   json_serializable: ^6.9.4
-  mocktail: ^1.0.4
+  mocktail: ^0.3.0
   test: ^1.25.15
   http_mock_adapter: ^0.6.1
 
