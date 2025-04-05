@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 
@@ -12,4 +13,5 @@ Future<void> configureDependencies() async => await getIt.init();
 @module
 abstract class RegisterModule {
   Dio get dio => Dio();
+  GeolocatorPlatform get geolocator => GeolocatorPlatform.instance;
 }
