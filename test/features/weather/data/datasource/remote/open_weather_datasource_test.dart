@@ -126,7 +126,7 @@ void main() {
 
       expect(result, isA<WeatherModel>());
       expect(result.timezone, equals('Asia/Ho_Chi_Minh'));
-      expect(result.current, isA<CurrentTemperature>());
+      expect(result.current, isA<CurrentTemperatureModel>());
       expect(result.daily, hasLength(1));
       verify(
         () => mockDioService.get(
