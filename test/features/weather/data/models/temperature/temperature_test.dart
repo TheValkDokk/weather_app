@@ -2,9 +2,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:weather_app/features/weather/data/models/temperature/temperature.dart';
 
 void main() {
-  group('Temperature', () {
+  group('TemperatureModel', () {
     test('should create a Temperature', () {
-      const temperature = Temperature(
+      const temperature = TemperatureModel(
         day: 20.5,
         min: 15.0,
         max: 25.0,
@@ -22,7 +22,7 @@ void main() {
     });
 
     test('should convert Temperature to JSON', () {
-      const temperature = Temperature(
+      const temperature = TemperatureModel(
         day: 20.5,
         min: 15.0,
         max: 25.0,
@@ -52,7 +52,7 @@ void main() {
         'morn': 16.0,
       };
 
-      final temperature = Temperature.fromJson(json);
+      final temperature = TemperatureModel.fromJson(json);
 
       expect(temperature.day, equals(20.5));
       expect(temperature.min, equals(15.0));

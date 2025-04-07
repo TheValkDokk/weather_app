@@ -1,5 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:weather_app/features/weather/data/models/weather_model.dart';
+import 'package:weather_app/features/weather/domain/entities/weather.dart';
+import 'package:weather_app/features/weather/domain/entities/current_temperature.dart';
+import 'package:weather_app/features/weather/domain/entities/temperature.dart';
 
 void main() {
   group('WeatherModel', () {
@@ -93,6 +96,32 @@ void main() {
       expect(json['timezone'], equals("Asia/Ho_Chi_Minh"));
       expect(json['current'], isA<Map<String, dynamic>>());
       expect(json['daily'], isA<List<dynamic>>());
+    });
+
+    test('toWeatherEntity should convert to Weather entity correctly', () {
+      final weatherModel = WeatherModel.fromJson(apiJson);
+      final weatherEntity = toWeatherEntity(weatherModel);
+
+      expect(weatherEntity, isA<Weather>());
+      expect(weatherEntity.timezone, equals("Asia/Ho_Chi_Minh"));
+      expect(weatherEntity.current, isA<CurrentTemperature>());
+      expect(
+        weatherEntity.current.date,
+        equals(DateTime.fromMillisecondsSinceEpoch(1743913928 * 1000)),
+      );
+      expect(weatherEntity.current.temp, equals(306.03));
+      expect(weatherEntity.daily, hasLength(1));
+      expect(
+        weatherEntity.daily[0].date,
+        equals(DateTime.fromMillisecondsSinceEpoch(1743912000 * 1000)),
+      );
+      expect(weatherEntity.daily[0].temp, isA<Temperature>());
+      expect(weatherEntity.daily[0].temp.day, equals(306.06));
+      expect(weatherEntity.daily[0].temp.min, equals(298.85));
+      expect(weatherEntity.daily[0].temp.max, equals(307.06));
+      expect(weatherEntity.daily[0].temp.night, equals(301.6));
+      expect(weatherEntity.daily[0].temp.eve, equals(305.12));
+      expect(weatherEntity.daily[0].temp.morn, equals(298.85));
     });
   });
 }

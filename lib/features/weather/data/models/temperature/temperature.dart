@@ -1,21 +1,30 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:weather_app/features/weather/domain/entities/temperature.dart';
 
 part 'temperature.freezed.dart';
 part 'temperature.g.dart';
 
 @freezed
-abstract class Temperature with _$Temperature {
-  const factory Temperature({
+abstract class TemperatureModel with _$TemperatureModel {
+  const factory TemperatureModel({
     required double day,
     required double min,
     required double max,
     required double night,
     required double eve,
     required double morn,
-  }) = _Temperature;
+  }) = _TemperatureModel;
 
-  factory Temperature.fromJson(Map<String, dynamic> json) =>
-      _$TemperatureFromJson(json);
+  factory TemperatureModel.fromJson(Map<String, dynamic> json) =>
+      _$TemperatureModelFromJson(json);
 }
 
-Map<String, dynamic> temperatureToJson(Temperature temp) => temp.toJson();
+Temperature toTemperatureEntity(TemperatureModel model) => Temperature(
+  day: model.day,
+  min: model.min,
+  max: model.max,
+  night: model.night,
+  eve: model.eve,
+  morn: model.morn,
+);
+Map<String, dynamic> temperatureToJson(TemperatureModel temp) => temp.toJson();
