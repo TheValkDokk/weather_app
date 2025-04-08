@@ -11,7 +11,11 @@ class FetchUserLocationUsecase implements UseCase<Position, void> {
   FetchUserLocationUsecase(this.locationRepository);
 
   @override
-  Future<Either<Failure, Position>> call(void params) {
-    return locationRepository.getCurrentLocation();
+  Future<Either<Failure, Position>> call(void params) async {
+    try {
+      return await locationRepository.getCurrentLocation();
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
   }
 }

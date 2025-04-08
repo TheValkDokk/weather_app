@@ -10,7 +10,11 @@ class FetchLocationNameUseCase implements UseCase<String, Position> {
 
   FetchLocationNameUseCase(this.locationRepository);
   @override
-  Future<Either<Failure, String>> call(Position params) {
-    return locationRepository.getCityName(params);
+  Future<Either<Failure, String>> call(Position params) async {
+    try {
+      return await locationRepository.getCityName(params);
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
   }
 }
