@@ -152,6 +152,7 @@ void main() {
         locationSubject.add(
           const LocationServiceState.locationServiceNotEnabled(),
         );
+        return bloc;
       },
       expect:
           () => [
@@ -177,6 +178,7 @@ void main() {
         locationSubject.add(
           LocationServiceState.locationServiceEnabled(mockPosition),
         );
+        return bloc;
       },
       expect:
           () => [
