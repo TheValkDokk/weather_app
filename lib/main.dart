@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/bloc_observer.dart';
@@ -10,7 +11,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await configureDependencies();
 
-  Bloc.observer = AppBlocObserver();
+  if (kDebugMode) {
+    Bloc.observer = AppBlocObserver();
+  }
   runApp(const MyApp());
 }
 
