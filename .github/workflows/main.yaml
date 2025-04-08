@@ -19,6 +19,9 @@ jobs:
       - name: Setup Flutter Version Manager (FVM)
         uses: kuhnroyal/flutter-fvm-config-action/setup@v3
 
+      - name: Install Very Good CLI
+        run: flutter pub global activate very_good_cli
+
       - name: Install dependencies
         run: flutter pub get
 
