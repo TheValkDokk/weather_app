@@ -26,7 +26,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
     this.connectivityBloc,
   ) : super(_Initial()) {
     on<_Started>((event, emit) {
-      emit(WeatherLoading());
+      emit(const WeatherState.loading());
       permissionBloc.add(const PermissionEvent.started());
     });
 

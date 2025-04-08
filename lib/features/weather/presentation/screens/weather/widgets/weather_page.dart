@@ -15,6 +15,7 @@ class WeatherPage extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: Column(
+        key: const Key('weather_page_column'),
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
