@@ -44,7 +44,7 @@ void main() {
       () => mockConnectivitySubject.isClosed,
     ).thenAnswer((_) => realSubject.isClosed);
 
-    connectivityService = ConnectivityService(
+    connectivityService = ConnectivityService.test(
       connectivity: mockConnectivity,
       connectivitySubject: mockConnectivitySubject,
     );

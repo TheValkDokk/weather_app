@@ -1,9 +1,9 @@
-import 'package:geocoding/geocoding.dart';
+import 'package:geocoding/geocoding.dart' as geocoding;
 import 'package:injectable/injectable.dart';
 import 'package:weather_app/core/errors/failure.dart';
 
 abstract class GeocodingService {
-  Future<List<Placemark>> placemarkFromCoordinates(
+  Future<List<geocoding.Placemark>> placemarkFromCoordinates(
     double latitude,
     double longitude,
   );
@@ -29,13 +29,13 @@ class GeocodingServiceImpl implements GeocodingService {
   }
 
   @override
-  Future<List<Placemark>> placemarkFromCoordinates(
+  Future<List<geocoding.Placemark>> placemarkFromCoordinates(
     double latitude,
     double longitude,
   ) {
     validateCoordinates(latitude, longitude);
     try {
-      return placemarkFromCoordinates(latitude, longitude);
+      return geocoding.placemarkFromCoordinates(latitude, longitude);
     } catch (e) {
       throw Failure(message: 'Failed to get placemarks', id: 'geocoding_error');
     }

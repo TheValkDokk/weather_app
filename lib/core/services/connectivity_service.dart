@@ -1,4 +1,5 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -7,11 +8,27 @@ class ConnectivityService {
   final Connectivity connectivity;
   final BehaviorSubject<ConnectivityResult> _connectivitySubject;
 
-  ConnectivityService({
+  @factoryMethod
+  ConnectivityService({required this.connectivity})
+    : _connectivitySubject = BehaviorSubject<ConnectivityResult>() {
+    _init();
+  }
+
+  @visibleForTesting
+  factory ConnectivityService.test({
+    required Connectivity connectivity,
+    required BehaviorSubject<ConnectivityResult> connectivitySubject,
+  }) {
+    return ConnectivityService._(
+      connectivity: connectivity,
+      connectivitySubject: connectivitySubject,
+    );
+  }
+
+  ConnectivityService._({
     required this.connectivity,
-    BehaviorSubject<ConnectivityResult>? connectivitySubject,
-  }) : _connectivitySubject =
-           connectivitySubject ?? BehaviorSubject<ConnectivityResult>() {
+    required BehaviorSubject<ConnectivityResult> connectivitySubject,
+  }) : _connectivitySubject = connectivitySubject {
     _init();
   }
 
@@ -29,6 +46,11 @@ class ConnectivityService {
 
   Stream<ConnectivityResult> connectivityStream() {
     return _connectivitySubject.stream;
+  }
+
+  Future<bool> isConnected() async {
+    final status = await currentConnectivityStatus();
+    return status.isNotEmpty && status.first != ConnectivityResult.none;
   }
 
   @disposeMethod

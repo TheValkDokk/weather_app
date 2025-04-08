@@ -134,7 +134,7 @@ void main() {
       final connectivity = getIt<Connectivity>();
       final result = await connectivity.checkConnectivity();
 
-      expect(result, ConnectivityResult.wifi);
+      expect(result, [ConnectivityResult.wifi]);
       verify(() => mockConnectivity.checkConnectivity()).called(1);
     });
 
