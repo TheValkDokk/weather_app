@@ -4,7 +4,7 @@ const screenBgColor = Color(0xfff5f6f7);
 const screenBgColorError = Color(0xffE85959);
 const buttonBgColor = Color(0xff4A4A4A);
 
-const textColor = Color(0xffFFFFFF);
+const errorTextColor = Color(0xffFFFFFF);
 
 const mainTempColor = Color(0xff2A2A2A);
 const tempColor = Color(0xff2A2A2A);
