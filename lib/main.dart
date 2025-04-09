@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:weather_app/bloc_observer.dart';
 import 'package:weather_app/routes/route.dart';
 
@@ -9,11 +10,15 @@ import 'core/theme/theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  GoogleFonts.config.allowRuntimeFetching = false;
+
   await configureDependencies();
 
   if (kDebugMode) {
     Bloc.observer = AppBlocObserver();
   }
+
   runApp(const MyApp());
 }
 
