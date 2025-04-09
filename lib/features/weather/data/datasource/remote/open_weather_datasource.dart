@@ -5,6 +5,13 @@ import 'package:weather_app/core/services/env_service.dart';
 import 'package:weather_app/features/weather/data/models/weather_model.dart';
 
 abstract class WeatherRemoteDataSource {
+  /// Fetches the current weather data for a given latitude and longitude.
+  ///
+  /// [lat] The latitude coordinate of the location.
+  /// [lon] The longitude coordinate of the location.
+  ///
+  /// Returns a [Future] that completes with [WeatherModel] containing the weather data.
+  /// Throws [ServerFailure] if the API request fails.
   Future<WeatherModel> getCurrentWeather(double lat, double lon);
 }
 

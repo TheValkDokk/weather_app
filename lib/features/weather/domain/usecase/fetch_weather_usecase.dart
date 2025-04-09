@@ -8,6 +8,17 @@ import 'package:weather_app/features/weather/domain/entities/weather.dart';
 import 'package:weather_app/features/weather/domain/repository/weather_repository.dart';
 
 @injectable
+/// A use case for fetching weather data.
+///
+/// This use case handles the process of fetching weather data by:
+/// 1. Checking internet connectivity
+/// 2. Verifying location permissions
+/// 3. Getting the current location
+/// 4. Fetching weather data for that location
+///
+/// Returns [Either] containing:
+/// - [Right] with [Weather] data if successful
+/// - [Left] with [Failure] if any step fails
 class FetchWeatherUsecase implements UseCase<Weather, void> {
   final WeatherRepository weatherRepository;
   final LocationRepository locationRepository;
