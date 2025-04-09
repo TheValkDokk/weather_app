@@ -5,7 +5,7 @@ import 'package:weather_app/core/errors/failure.dart';
 import 'package:weather_app/features/location/data/datasource/location_datasource.dart';
 import 'package:weather_app/features/location/domain/repository/location_repository.dart';
 
-@Singleton(as: LocationRepository)
+@LazySingleton(as: LocationRepository)
 class LocationRepositoryImpl implements LocationRepository {
   final LocationDataSource locationDataSource;
 

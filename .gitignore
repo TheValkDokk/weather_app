@@ -49,3 +49,4 @@ app.*.map.json
 *.config.dart
 *.freezed.dart
 *.g.dart
+.env
