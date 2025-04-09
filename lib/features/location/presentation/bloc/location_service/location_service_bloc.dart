@@ -25,6 +25,7 @@ class LocationServiceBloc
     _Check event,
     Emitter<LocationServiceState> emit,
   ) async {
+    emit(const LocationServiceState.loading());
     final result = await Geolocator.isLocationServiceEnabled();
     if (!result) {
       emit(const LocationServiceState.locationServiceNotEnabled());

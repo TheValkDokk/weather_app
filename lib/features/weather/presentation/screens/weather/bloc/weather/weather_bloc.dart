@@ -68,6 +68,12 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
       add(_PermissionChecked(state: state));
     });
 
+    connectivityBloc.stream.listen((state) {
+      if (state is Connected) {
+        add(const _Started());
+      }
+    });
+
     locationServiceBloc.stream.listen((state) {
       if (state is LocationServiceEnabled) {
         add(_LocationFetched(isEnabled: true, position: state.position));
