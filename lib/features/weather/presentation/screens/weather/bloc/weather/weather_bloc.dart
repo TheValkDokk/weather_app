@@ -27,11 +27,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   ) : super(_Initial()) {
     on<_Started>((event, emit) {
       emit(const WeatherState.loading());
-      if (connectivityBloc.state is Connected) {
-        permissionBloc.add(const PermissionEvent.started());
-      } else {
-        emit(WeatherError(Failure(message: 'No Internet', id: 'no_internet')));
-      }
+      permissionBloc.add(const PermissionEvent.started());
     });
 
     on<_PermissionChecked>((event, emit) {
@@ -66,6 +62,12 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
 
     permissionBloc.stream.listen((state) {
       add(_PermissionChecked(state: state));
+    });
+
+    connectivityBloc.stream.listen((state) {
+      if (state is Connected) {
+        add(const _Started());
+      }
     });
 
     locationServiceBloc.stream.listen((state) {
