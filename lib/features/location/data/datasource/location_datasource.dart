@@ -6,7 +6,28 @@ import 'package:weather_app/core/app.dart';
 import 'package:weather_app/features/location/data/datasource/geocoding_datasource.dart';
 
 abstract class LocationDataSource {
+  /// Retrieves the current device location.
+  ///
+  /// Returns a [Future] that completes with a [Position] object containing
+  /// the current latitude and longitude coordinates.
+  ///
+  /// Throws a [Failure] if:
+  /// - Location services are disabled
+  /// - Location permission is not granted
+  /// - Unable to get the current position
   Future<Position> getCurrentLocation();
+
+  /// Converts latitude and longitude coordinates to a list of placemarks.
+  ///
+  /// [latitude] The latitude coordinate (must be between -90 and 90)
+  /// [longitude] The longitude coordinate (must be between -180 and 180)
+  ///
+  /// Returns a [Future] that completes with a list of [Placemark] objects
+  /// containing location information.
+  ///
+  /// Throws a [Failure] if:
+  /// - The coordinates are invalid
+  /// - Unable to get placemarks for the given coordinates
   Future<List<Placemark>> getPlacemarks({
     required double latitude,
     required double longitude,
