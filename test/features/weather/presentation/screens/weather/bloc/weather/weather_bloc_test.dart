@@ -14,13 +14,19 @@ import 'package:weather_app/features/weather/domain/entities/temperature.dart';
 import 'package:weather_app/features/weather/presentation/screens/weather/bloc/weather_temp/weather_data_bloc.dart';
 import 'package:weather_app/features/weather/presentation/screens/weather/bloc/weather/weather_bloc.dart';
 
-class MockWeatherDataBloc extends Mock implements WeatherDataBloc {}
+class MockWeatherDataBloc extends MockBloc<WeatherDataEvent, WeatherDataState>
+    implements WeatherDataBloc {}
 
-class MockPermissionBloc extends Mock implements PermissionBloc {}
+class MockPermissionBloc extends MockBloc<PermissionEvent, PermissionState>
+    implements PermissionBloc {}
 
-class MockLocationServiceBloc extends Mock implements LocationServiceBloc {}
+class MockLocationServiceBloc
+    extends MockBloc<LocationServiceEvent, LocationServiceState>
+    implements LocationServiceBloc {}
 
-class MockConnectivityBloc extends Mock implements ConnectivityBloc {}
+class MockConnectivityBloc
+    extends MockBloc<ConnectivityEvent, ConnectivityState>
+    implements ConnectivityBloc {}
 
 void main() {
   late WeatherBloc bloc;
@@ -53,6 +59,9 @@ void main() {
     when(
       () => mockWeatherDataBloc.stream,
     ).thenAnswer((_) => weatherDataSubject.stream);
+    when(
+      () => mockConnectivityBloc.state,
+    ).thenReturn(const ConnectivityState.connected());
 
     bloc = WeatherBloc(
       mockWeatherDataBloc,
@@ -100,13 +109,31 @@ void main() {
   });
 
   group('WeatherBloc', () {
-    test('initial state should be Loading', () {
-      expect(bloc.state, equals(const WeatherState.loading()));
-    });
+    blocTest<WeatherBloc, WeatherState>(
+      'should emit [error] when there is no internet connection on start',
+      build: () => bloc,
+      act: (bloc) {
+        when(
+          () => mockConnectivityBloc.state,
+        ).thenReturn(const ConnectivityState.noInternetConnection());
+        bloc.add(const WeatherEvent.started());
+      },
+      expect:
+          () => [
+            WeatherState.error(
+              Failure(message: "No Internet", id: "no_internet"),
+            ),
+          ],
+    );
 
     blocTest<WeatherBloc, WeatherState>(
-      'should call started when started',
+      'should call permission check when internet is connected',
       build: () => bloc,
+      act: (bloc) {
+        when(
+          () => mockConnectivityBloc.state,
+        ).thenReturn(const ConnectivityState.connected());
+      },
       verify: (_) {
         verify(
           () => mockPermissionBloc.add(const PermissionEvent.started()),
@@ -152,7 +179,6 @@ void main() {
         locationSubject.add(
           const LocationServiceState.locationServiceNotEnabled(),
         );
-        return bloc;
       },
       expect:
           () => [
@@ -167,7 +193,7 @@ void main() {
     );
 
     blocTest<WeatherBloc, WeatherState>(
-      'should emit [error] when there is no internet connection',
+      'should emit [error] when there is no internet connection during location fetch',
       build: () {
         when(
           () => mockConnectivityBloc.state,
@@ -178,7 +204,6 @@ void main() {
         locationSubject.add(
           LocationServiceState.locationServiceEnabled(mockPosition),
         );
-        return bloc;
       },
       expect:
           () => [
@@ -194,17 +219,11 @@ void main() {
 
     blocTest<WeatherBloc, WeatherState>(
       'should fetch weather when location is enabled and internet is connected',
-      build: () {
-        when(
-          () => mockConnectivityBloc.state,
-        ).thenReturn(const ConnectivityState.connected());
-        return bloc;
-      },
+      build: () => bloc,
       act: (bloc) {
         locationSubject.add(
           LocationServiceState.locationServiceEnabled(mockPosition),
         );
-        return bloc;
       },
       verify: (_) {
         verify(
@@ -221,13 +240,6 @@ void main() {
       act: (bloc) {
         weatherDataSubject.add(
           WeatherDataState.weatherDataloaded(
-            weather: mockWeather,
-            cityName: 'Test City',
-          ),
-        );
-        return bloc.add(
-          WeatherEvent.weatherFetched(
-            isLoaded: true,
             weather: mockWeather,
             cityName: 'Test City',
           ),
@@ -251,24 +263,16 @@ void main() {
             ),
           ),
         );
-        return bloc.add(
-          WeatherEvent.weatherFetched(
-            isLoaded: false,
-            failure: Failure(
-              message: 'Weather fetch failed',
-              id: 'weather_fetch_failed',
-            ),
-          ),
-        );
       },
       expect:
           () => [
-            WeatherState.error(
-              Failure(
-                message: 'Weather fetch failed',
-                id: 'weather_fetch_failed',
-              ),
-            ),
+            predicate<WeatherState>((state) {
+              if (state is WeatherError) {
+                return state.failure.message == 'Weather fetch failed' &&
+                    state.failure.id == 'weather_fetch_failed';
+              }
+              return false;
+            }),
           ],
     );
   });

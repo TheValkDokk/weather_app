@@ -48,32 +48,34 @@ class _WeatherScreenState extends State<WeatherScreen>
         BlocProvider(create: (context) => getIt<ConnectivityBloc>()),
         BlocProvider(create: (context) => getIt<LocationServiceBloc>()),
       ],
-      child: Scaffold(
-        body: MultiBlocListener(
-          listeners: [
-            BlocListener<PermissionBloc, PermissionState>(
-              listener: (context, state) {
-                if (state is PermanentlyDenied) {
-                  showDialog(
-                    context: context,
-                    builder: (context) => PermissionDeniedDialog(),
+      child: SafeArea(
+        child: Scaffold(
+          body: MultiBlocListener(
+            listeners: [
+              BlocListener<PermissionBloc, PermissionState>(
+                listener: (context, state) {
+                  if (state is PermanentlyDenied) {
+                    showDialog(
+                      context: context,
+                      builder: (context) => PermissionDeniedDialog(),
+                    );
+                  }
+                },
+              ),
+            ],
+            child: BlocBuilder<WeatherBloc, WeatherState>(
+              builder: (context, state) {
+                if (state is WeatherLoaded) {
+                  return WeatherPage(
+                    weather: state.weather,
+                    cityName: state.cityName,
                   );
+                } else if (state is WeatherError) {
+                  return ErrorPage(onRetry: _onRetry);
                 }
+                return const LoadingPage();
               },
             ),
-          ],
-          child: BlocBuilder<WeatherBloc, WeatherState>(
-            builder: (context, state) {
-              if (state is WeatherLoaded) {
-                return WeatherPage(
-                  weather: state.weather,
-                  cityName: state.cityName,
-                );
-              } else if (state is WeatherError) {
-                return ErrorPage(onRetry: _onRetry);
-              }
-              return const LoadingPage();
-            },
           ),
         ),
       ),
