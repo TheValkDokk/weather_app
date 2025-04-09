@@ -75,10 +75,13 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
     });
 
     locationServiceBloc.stream.listen((state) {
-      if (state is LocationServiceEnabled) {
-        add(_LocationFetched(isEnabled: true, position: state.position));
-      } else {
-        add(_LocationFetched(isEnabled: false, position: null));
+      switch (state) {
+        case LocationServiceEnabled():
+          add(_LocationFetched(isEnabled: true, position: state.position));
+        case LocationServiceLoading():
+          break;
+        default:
+          add(_LocationFetched(isEnabled: false, position: null));
       }
     });
 

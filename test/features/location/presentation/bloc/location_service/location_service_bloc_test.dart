@@ -53,7 +53,11 @@ void main() {
       },
       build: () => bloc,
       act: (bloc) => bloc.add(const LocationServiceEvent.check()),
-      expect: () => [const LocationServiceState.locationServiceNotEnabled()],
+      expect:
+          () => [
+            LocationServiceState.loading(),
+            const LocationServiceState.locationServiceNotEnabled(),
+          ],
     );
 
     blocTest<LocationServiceBloc, LocationServiceState>(
@@ -69,7 +73,11 @@ void main() {
         return bloc;
       },
       act: (bloc) => bloc.add(const LocationServiceEvent.check()),
-      expect: () => [LocationServiceState.locationServiceEnabled(mockPosition)],
+      expect:
+          () => [
+            LocationServiceState.loading(),
+            LocationServiceState.locationServiceEnabled(mockPosition),
+          ],
     );
 
     blocTest<LocationServiceBloc, LocationServiceState>(
@@ -88,6 +96,7 @@ void main() {
       act: (bloc) => bloc.add(const LocationServiceEvent.check()),
       expect:
           () => [
+            LocationServiceState.loading(),
             predicate<LocationServiceState>((state) {
               if (state is LocationServiceError) {
                 return state.failure.message == 'Failed to get location' &&
